@@ -1,4 +1,6 @@
-from flask import Flask, render_template, redirect, url_for, request, make_response
+from flask import Flask, render_template, redirect, url_for, request, make_response, Response
+from webcamStream import WebcamVideoStream
+import cv2
 import time
 
 app = Flask(__name__)
@@ -23,6 +25,23 @@ def login():
         else:
             return redirect(url_for('flux'))
     return render_template('login.html', error=error)
+
+def gen(camera):
+    while True:
+        if camera.stopped:
+            break
+        frame = camera.read()
+        ret, jpeg = cv2.imencode('.jpg',frame)
+        if jpeg is not None:
+            yield (b'--frame\r\n'
+                    b'Content-Type: image/jpeg\r\n\r\n' + jpeg.tobytes() + b'\r\n\r\n')
+        else:
+            print("frame is none")
+
+@app.route('/video_feed')
+def video_feed():
+    return Response(gen(WebcamVideoStream().start()),
+                    mimetype='multipart/x-mixed-replace; boundary=frame')
 
 @app.route('/')
 def index():
