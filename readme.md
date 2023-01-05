@@ -3,4 +3,5 @@
 ## Documentation
 - [Flask Setup](https://towardsdatascience.com/python-webserver-with-flask-and-raspberry-pi-398423cc6f5d)
 - [Servo raspi setup](https://gist.github.com/elktros/384443b57a33f399a4acba76191e0e63)
-- [Flask camera repository](https://github.com/EbenKouao/pi-camera-stream-flask)
+- [Picamera doc](https://picamera.readthedocs.io/en/release-1.13)
+- [Get Picamera flux on alternative page](https://randomnerdtutorials.com/video-streaming-with-raspberry-pi-camera/)
