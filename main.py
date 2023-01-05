@@ -1,7 +1,7 @@
 from flask import Flask, render_template, redirect, url_for, request, make_response, Response
 from webcamStream import WebcamVideoStream
 import cv2
-import time
+from servoFunction import servoFunction
 
 app = Flask(__name__)
 
@@ -9,6 +9,12 @@ app = Flask(__name__)
 def flux():
     if request.cookies.get('userID'):
         return render_template('flux.html')
+    return "Access denied"
+
+@app.route('/opendoor', methods=['POST']) 
+def opendoor():
+    servoFunction()
+    return redirect(url_for('flux'))
 
 @app.route('/setcookie', methods=['GET', 'POST'])
 def setCookie():
@@ -45,6 +51,8 @@ def video_feed():
 
 @app.route('/')
 def index():
+    if request.cookies.get('userID'):
+        return redirect(url_for('flux'))
     return redirect(url_for('login'))
 if __name__ == '__main__':
     app.run(debug=True, port=80, host='0.0.0.0')
