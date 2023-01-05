@@ -1,3 +1,4 @@
 Libraries :
 - Flask
 - RPi.GPIO
+- cv2
