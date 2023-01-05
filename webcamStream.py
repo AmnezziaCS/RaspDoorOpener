@@ -4,7 +4,7 @@ import time
 
 class WebcamVideoStream:
     def __init__(self, src = 0):
-        print("init")
+        print("Initialising camera flux")
         self.stream = cv2.VideoCapture(src)
         (self.grabbed, self.frame) = self.stream.read()
         self.stopped = False
@@ -20,9 +20,6 @@ class WebcamVideoStream:
     def update(self):
         print("read")
         while True:
-            if self.stopped:
-                return
-            
             (self.grabbed, self.frame) = self.stream.read()
     
     def read(self):
