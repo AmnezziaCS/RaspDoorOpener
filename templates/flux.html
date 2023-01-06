@@ -1,6 +1,18 @@
-<center>
-    <img id="bg" src="/video_feed" style="transform: rotate(180deg);">
-    <form action="/opendoor" method="post">
-        <button name="forwardBtn" type="submit">Open door</button>
-    </form>
-</center>
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Enigma | Connection page</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+</head>
+
+<body>
+    <center>
+        <img id="bg" src="/video_feed">
+        <form action="/opendoor" method="post">
+            <button name="forwardBtn" type="submit">Open door</button>
+        </form>
+    </center>
+</body>
+
+</html>
