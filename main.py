@@ -1,7 +1,6 @@
 from flask import Flask, render_template, redirect, url_for, request, make_response, Response
-from webcamStream import WebcamVideoStream
-import cv2
 from servoFunction import servoFunction
+from camera import Camera
 
 app = Flask(__name__)
 
@@ -33,20 +32,15 @@ def login():
     return render_template('login.html', error=error)
 
 def gen(camera):
+    """Video streaming generator function."""
+    yield b'--frame\r\n'
     while True:
-        if camera.stopped:
-            break
-        frame = camera.read()
-        ret, jpeg = cv2.imencode('.jpg',frame)
-        if jpeg is not None:
-            yield (b'--frame\r\n'
-                    b'Content-Type: image/jpeg\r\n\r\n' + jpeg.tobytes() + b'\r\n\r\n')
-        else:
-            print("frame is none")
+        frame = camera.get_frame()
+        yield b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n--frame\r\n'
 
 @app.route('/video_feed')
 def video_feed():
-    return Response(gen(WebcamVideoStream().start()),
+    return Response(gen(Camera()),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
 @app.route('/')
