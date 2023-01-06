@@ -2,3 +2,4 @@ Libraries :
 - Flask
 - RPi.GPIO
 - cv2
+- pyjwt
