@@ -2,8 +2,11 @@ from flask import Flask, render_template, redirect, url_for, request, make_respo
 from utils.servoFunction import servoFunction
 from utils.camera import Camera
 from utils.jwtVerifier import fluxJwtVerifier, cookieJwtVerifier
+from threading import Semaphore
 import json
 import jwt
+
+buttonSem = Semaphore(1)
 
 app = Flask(__name__)
 
@@ -17,15 +20,21 @@ def gen(camera):
 @app.route('/flux')
 def flux():
     if fluxJwtVerifier(request):
-        return render_template('flux.html')
+        buttonDisabled = False if buttonSem._value == 1 else True
+        return render_template('flux.html', buttonDisabled=buttonDisabled)
     else: 
         return redirect(url_for('login'))
 
 @app.route('/opendoor', methods=['POST']) 
 def opendoor():
     if fluxJwtVerifier(request):
-        servoFunction()
-        return redirect(url_for('flux'))
+        if buttonSem._value == 1:
+            buttonSem.acquire()
+            servoFunction()
+            buttonSem.release()
+            return redirect(url_for('flux'))
+        else:
+           return redirect(url_for('flux')) 
     else: 
         return redirect(url_for('login'))
 

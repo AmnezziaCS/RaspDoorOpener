@@ -1,23 +1,28 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Enigma | Flux page</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+
+<head>
+  <title>Enigma | Connection page</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
 </head>
-  <body>
-    <div class="container">
-      <h1>Please login</h1>
+
+<body>
+  <div class="container">
+    <div class="">
+      <h2>Please login</h2>
       <br>
       <form action="" method="post">
         <input type="text" placeholder="Username" name="username" value="{{
-          request.form.username }}">
-         <input type="password" placeholder="Password" name="password" value="{{
-          request.form.password }}">
+              request.form.username }}">
+        <input type="password" placeholder="Password" name="password" value="{{
+              request.form.password }}">
         <input class="btn btn-default" type="submit" value="Login">
       </form>
       {% if error %}
-        <p class="error"><strong>Error:</strong> {{ error }}
-      {% endif %}
+      <p class="error"><strong>Error:</strong> {{ error }}
+        {% endif %}
     </div>
-  </body>
+  </div>
+</body>
+
 </html>
