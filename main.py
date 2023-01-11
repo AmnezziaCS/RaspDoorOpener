@@ -3,6 +3,7 @@ from utils.servoFunction import servoFunction
 from utils.camera import Camera
 from utils.jwtVerifier import fluxJwtVerifier, cookieJwtVerifier
 from threading import Semaphore
+import os
 import json
 import jwt
 
@@ -50,7 +51,7 @@ def setCookie():
 def login():
     error = None
     if request.method == 'POST':
-        jsonFile = open("./users.json")
+        jsonFile = open(f"{os.path.dirname(os.path.abspath(__file__))}\\users.json")
         userJson = json.load(jsonFile)
         if request.form['username'] in userJson:
             targetedUser = userJson.get(request.form['username'])
